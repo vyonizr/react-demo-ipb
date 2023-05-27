@@ -25,7 +25,6 @@ function Home() {
   const [todos, setTodos] = useState([])
 
   function handleChange(event) {
-    console.log(event.target.value)
     // setNewTodo(event.target.value)
     setNewTodo({
       value: event.target.value,
