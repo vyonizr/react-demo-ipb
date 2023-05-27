@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { nanoid } from 'nanoid'
 import './App.css'
 
+import Button from './components/Button'
+
 const DUMMY_TODOS = [
   {
     id: nanoid(),
@@ -83,8 +85,8 @@ function App() {
     <>
       <h1>Todo App</h1>
       <div className='input-wrapper'>
-        <input type='text' onChange={event => handleChange(event)} value={newTodo.value} />
-        <button onClick={() => createNewTodo()}>Create</button>
+        <input type='text' onChange={event => handleChange(event)} value={newTodo.value} placeholder='Isi todo di sini' style={{ padding: '8px 4px' }} />
+        <Button onClick={() => createNewTodo()}>Create</Button>
       </div>
       {
         newTodo.error.length > 0 ? (
@@ -106,8 +108,8 @@ function App() {
       }
       {
         todos.length > 0 ? (
-          <button onClick={() => clearCompletedTodos()}>Clear Completed</button>
-        ) : <p style={{ marginTop: '32px' }}>Todo List is empty</p>
+          <Button onClick={() => clearCompletedTodos()} disabled={!todos.some(todo => { return todo.isCompleted })}>Clear Completed</Button>
+        ) : <p style={{ marginTop: '32px' }}>Empty</p>
       }
     </>
   )

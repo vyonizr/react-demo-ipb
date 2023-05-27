@@ -12,3 +12,7 @@ ul {
   align-items: flex-start;
   padding: 12px 4px;
 }
+
+.todo-item:not(:last-child) {
+  border-bottom: 1px solid rgb(207 216 220);
+}
