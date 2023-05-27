@@ -2,17 +2,3 @@ ul {
   padding-inline-start: 0rem;
   width: 100%;
 }
-
-.todo-item {
-  width: 100%;
-  display: grid;
-  grid-template-columns: auto 224px auto;
-  list-style: none;
-  background-color: rgb(241 245 249);
-  align-items: flex-start;
-  padding: 12px 4px;
-}
-
-.todo-item:not(:last-child) {
-  border-bottom: 1px solid rgb(207 216 220);
-}
