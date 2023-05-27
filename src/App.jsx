@@ -1,33 +1,114 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { nanoid } from 'nanoid'
 import './App.css'
 
+const DUMMY_TODOS = [
+  {
+    id: nanoid(),
+    content: 'Belajar React',
+    isCompleted: false
+  }
+]
+
 function App() {
-  const [count, setCount] = useState(0)
+  // const [newTodo, setNewTodo] = useState('')
+  const [newTodo, setNewTodo] = useState({
+    value: '',
+    error: ''
+  })
+
+  const [todos, setTodos] = useState(DUMMY_TODOS)
+  // const [todos, setTodos] = useState([])
+
+  function handleChange(event) {
+    console.log(event.target.value)
+    // setNewTodo(event.target.value)
+    setNewTodo({
+      value: event.target.value,
+      error: ''
+    })
+  }
+
+  function createNewTodo() {
+    if (newTodo.value.length === 0) {
+      setNewTodo({
+        ...newTodo,
+        error: 'Todo tidak boleh kosong'
+      })
+    } else {
+      const updatedTodos = [...todos]
+      updatedTodos.push({
+        id: nanoid(),
+        content: newTodo.value,
+        isCompleted: false,
+      })
+
+      setTodos(updatedTodos)
+      setNewTodo({
+        value: '',
+        error: ''
+      })
+    }
+  }
+
+  function completeTodo(targetTodoId) {
+    const updatedTodos = todos.map(todo => {
+      if (todo.id === targetTodoId) {
+        todo.isCompleted = !todo.isCompleted
+      }
+
+      return todo
+    })
+
+    setTodos(updatedTodos)
+  }
+
+  function clearCompletedTodos() {
+    const updatedTodos = todos.filter(todo => {
+      return todo.isCompleted === false
+    })
+
+    setTodos(updatedTodos)
+  }
+
+  function deleteTodo(targetTodoId) {
+    const updatedTodos = todos.filter(todo => {
+      return todo.id !== targetTodoId
+    })
+
+    setTodos(updatedTodos)
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <h1>Todo App</h1>
+      <div className='input-wrapper'>
+        <input type='text' onChange={event => handleChange(event)} value={newTodo.value} />
+        <button onClick={() => createNewTodo()}>Create</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {
+        newTodo.error.length > 0 ? (
+          <small style={{ color: 'red' }}>{newTodo.error}</small>
+        ) : null
+      }
+      {
+        todos.length > 0 ? (
+          <ul>
+            {todos.map(todo => (
+              <li key={todo.id} className="todo-item" >
+                <input type='checkbox' onChange={() => completeTodo(todo.id)} style={{ height: '16px' }} />
+                <p style={{ overflowWrap: 'break-word', textDecoration: todo.isCompleted ? 'line-through' : '' }}>{todo.content}</p>
+                <button style={{ background: 'none', border: 'none' }} onClick={() => deleteTodo(todo.id)}>❌</button>
+              </li>
+            ))}
+          </ul>
+        ) : null
+      }
+      {
+        todos.length > 0 ? (
+          <button onClick={() => clearCompletedTodos()}>Clear Completed</button>
+        ) : <p style={{ marginTop: '32px' }}>Todo List is empty</p>
+      }
     </>
   )
 }
