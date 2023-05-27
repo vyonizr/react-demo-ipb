@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { nanoid } from 'nanoid'
 import { Link } from 'react-router-dom'
+import { Helmet } from "react-helmet";
 import './style.css'
 
 import Button from '../../components/Button'
@@ -84,6 +85,9 @@ function Home() {
 
   return (
     <>
+      <Helmet>
+        <title>Home | Todo App</title>
+      </Helmet>
       <h1>Todo App</h1>
       <div className='input-wrapper'>
         <input type='text' onChange={event => handleChange(event)} value={newTodo.value} placeholder='Isi todo di sini' style={{ padding: '8px 4px' }} />
