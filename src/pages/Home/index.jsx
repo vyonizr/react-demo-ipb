@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet";
 import './style.css'
 
 import Button from '../../components/Button'
+import Quote from '../../components/Quote'
 
 // const DUMMY_TODOS = [
 //   {
@@ -88,7 +89,8 @@ function Home() {
         <title>Home | Todo App</title>
       </Helmet>
       <h1>Todo App</h1>
-      <div className='input-wrapper'>
+      <Quote />
+      <div className='input-wrapper' style={{ marginTop: '20px' }}>
         <input type='text' onChange={event => handleChange(event)} value={newTodo.value} placeholder='Isi todo di sini' style={{ padding: '8px 4px' }} />
         <Button onClick={() => createNewTodo()} style={{ marginLeft: '0.5rem' }}>Create</Button>
       </div>
