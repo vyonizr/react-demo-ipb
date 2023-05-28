@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { nanoid } from 'nanoid'
 import { Link } from 'react-router-dom'
 import { Helmet } from "react-helmet";
 import './style.css'
 
 import Button from '../../components/Button'
+import Quote from '../../components/Quote'
 
 // const DUMMY_TODOS = [
 //   {
@@ -23,28 +24,6 @@ function Home() {
 
   // const [todos, setTodos] = useState(DUMMY_TODOS)
   const [todos, setTodos] = useState([])
-  const [quote, setQuote] = useState({
-    message: '',
-    author: ''
-  })
-
-  useEffect(() => {
-    async function fetchQuote() {
-      try {
-        const response = await fetch('https://api.quotable.io/quotes/random')
-        const [data] = await response.json()
-        const { content, author } = data
-        setQuote({
-          message: content,
-          author
-        })
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    fetchQuote()
-  }, []);
 
   function handleChange(event) {
     // setNewTodo(event.target.value)
@@ -110,15 +89,8 @@ function Home() {
         <title>Home | Todo App</title>
       </Helmet>
       <h1>Todo App</h1>
-      {
-        quote.message.length > 0 ? (
-          <>
-            <p style={{ fontStyle: 'italic' }}>{quote.message}</p>
-            <p style={{ textAlign: 'right' }}>- {quote.author}</p>
-          </>
-        ) : null
-      }
-      <div className='input-wrapper'>
+      <Quote />
+      <div className='input-wrapper' style={{ marginTop: '20px' }}>
         <input type='text' onChange={event => handleChange(event)} value={newTodo.value} placeholder='Isi todo di sini' style={{ padding: '8px 4px' }} />
         <Button onClick={() => createNewTodo()} style={{ marginLeft: '0.5rem' }}>Create</Button>
       </div>
